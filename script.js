@@ -179,7 +179,7 @@ function revealSafeArea(startRow, startCol) {
 }
 
 function formatCellLabel(cell) {
-  return `${String.fromCharCode(65 + cell.row)}${cell.col + 1}`;
+  return `${cell.row + 1}行${cell.col + 1}列`;
 }
 
 function checkForWin() {
@@ -200,7 +200,7 @@ function checkForWin() {
   });
 
   setMessage(
-    `You revealed every safe room and escaped with ${state.coins} coins. Dungeon cleared.`,
+    `你揭开了所有安全房间，并带着 ${state.coins} 枚金币逃离了地牢。成功通关。`,
     "good"
   );
 }
@@ -216,7 +216,7 @@ function loseGame() {
     }
   });
 
-  setMessage("Your HP hit zero. The dungeon wins this run.", "bad");
+  setMessage("你的生命值归零了。这次闯关败给了地牢。", "bad");
 }
 
 function revealCell(row, col) {
@@ -239,7 +239,7 @@ function revealCell(row, col) {
       loseGame();
     } else {
       setMessage(
-        `Room ${formatCellLabel(cell)} triggered a trap. You lost 1 HP, but the run continues.`,
+        `${formatCellLabel(cell)}触发了陷阱。你失去了 1 点生命，但本局仍在继续。`,
         "warn"
       );
     }
@@ -252,17 +252,17 @@ function revealCell(row, col) {
 
   if (revealResult.coinsFound > 0) {
     setMessage(
-      `You found ${revealResult.coinsFound} coins across ${revealResult.treasureRoomsFound} treasure rooms.`,
+      `你在 ${revealResult.treasureRoomsFound} 个宝藏房间里一共找到了 ${revealResult.coinsFound} 枚金币。`,
       "good"
     );
   } else if (cell.adjacent === 0) {
     setMessage(
-      "A quiet stretch of rooms opened up. Follow the safe path and keep exploring.",
+      "前方出现了一片安静区域。沿着安全路线继续探索吧。",
       "neutral"
     );
   } else {
     setMessage(
-      `Room ${formatCellLabel(cell)} is safe. Its number shows how many traps touch it.`,
+      `${formatCellLabel(cell)}是安全的。数字表示与它相邻的陷阱数量。`,
       "neutral"
     );
   }
@@ -283,8 +283,8 @@ function toggleFlag(row, col) {
 
   setMessage(
     cell.flagged
-      ? `Placed a flag on room ${formatCellLabel(cell)}.`
-      : `Removed the flag from room ${formatCellLabel(cell)}.`,
+      ? `已在${formatCellLabel(cell)}放置标记。`
+      : `已移除${formatCellLabel(cell)}的标记。`,
     "neutral"
   );
 
@@ -300,32 +300,32 @@ function useScout(row, col) {
 
   if (!state.initialized) {
     state.scoutMode = false;
-    setMessage("Scout becomes available after your first move.", "warn");
+    setMessage("完成第一次行动后才能使用侦察。", "warn");
     render();
     return;
   }
 
   if (cell.revealed) {
-    setMessage("Scout only works on hidden rooms.", "warn");
+    setMessage("侦察只能用于隐藏房间。", "warn");
     render();
     return;
   }
 
   if (cell.flagged) {
-    setMessage("Remove the flag before scouting that room.", "warn");
+    setMessage("请先取消该房间的标记，再进行侦察。", "warn");
     render();
     return;
   }
 
   if (cell.scouted) {
-    setMessage("That room has already been scouted.", "warn");
+    setMessage("这个房间已经侦察过了。", "warn");
     render();
     return;
   }
 
   if (state.coins < CONFIG.scoutCost) {
     state.scoutMode = false;
-    setMessage("You do not have enough coins to use Scout.", "warn");
+    setMessage("你的金币不足，无法使用侦察。", "warn");
     render();
     return;
   }
@@ -336,17 +336,17 @@ function useScout(row, col) {
 
   if (cell.trap) {
     setMessage(
-      `Scout confirmed that room ${formatCellLabel(cell)} is trapped. Flag it or route around it.`,
+      `侦察确认${formatCellLabel(cell)}有陷阱。把它标记出来，或绕路前进。`,
       "warn"
     );
   } else if (cell.adjacent === 0) {
     setMessage(
-      `Scout confirmed that room ${formatCellLabel(cell)} is safe and opens into a wide empty area.`,
+      `侦察确认${formatCellLabel(cell)}安全，并且连接着一大片空白区域。`,
       "good"
     );
   } else {
     setMessage(
-      `Scout checked room ${formatCellLabel(cell)}: safe, with ${cell.adjacent} nearby traps.`,
+      `侦察结果：${formatCellLabel(cell)}安全，周围有 ${cell.adjacent} 个陷阱。`,
       "good"
     );
   }
@@ -363,9 +363,9 @@ function toggleFlagMode() {
 
   if (state.flagMode) {
     state.scoutMode = false;
-    setMessage("Flag Mode is on. Click a hidden room to place or remove a flag.", "neutral");
+    setMessage("标记模式已开启。点击隐藏房间可放置或取消标记。", "neutral");
   } else {
-    setMessage("Flag Mode is off. Clicking hidden rooms will reveal them again.", "neutral");
+    setMessage("标记模式已关闭。点击隐藏房间会直接揭开它。", "neutral");
   }
 
   render();
@@ -377,13 +377,13 @@ function toggleScoutMode() {
   }
 
   if (!state.initialized) {
-    setMessage("Scout becomes available after your first move.", "warn");
+    setMessage("完成第一次行动后才能使用侦察。", "warn");
     render();
     return;
   }
 
   if (state.coins < CONFIG.scoutCost) {
-    setMessage("You do not have enough coins to use Scout.", "warn");
+    setMessage("你的金币不足，无法使用侦察。", "warn");
     render();
     return;
   }
@@ -392,9 +392,9 @@ function toggleScoutMode() {
 
   if (state.scoutMode) {
     state.flagMode = false;
-    setMessage("Scout is ready. Click one hidden room to inspect it safely.", "good");
+    setMessage("侦察已就绪。点击一个隐藏房间即可安全查看。", "good");
   } else {
-    setMessage("Scout cancelled.", "neutral");
+    setMessage("已取消侦察。", "neutral");
   }
 
   render();
@@ -412,7 +412,7 @@ function resetGame() {
   state.scoutMode = false;
 
   setMessage(
-    "Click any room to begin. Your first room and its neighbors are always safe.",
+    "点击任意房间开始。你的第一个房间及其周围房间一定安全。",
     "neutral"
   );
 
@@ -429,7 +429,7 @@ function getTileGlyph(cell) {
   }
 
   if (cell.flagged) {
-    return "F";
+    return "旗";
   }
 
   if (cell.scouted) {
@@ -445,30 +445,30 @@ function getTileGlyph(cell) {
 
 function getTileLabel(cell) {
   if (cell.revealed && cell.trap) {
-    return `Trap room ${formatCellLabel(cell)}.`;
+    return `陷阱房间，位置${formatCellLabel(cell)}。`;
   }
 
   if (cell.revealed && !cell.trap) {
     if (cell.adjacent === 0) {
-      return `Safe empty room ${formatCellLabel(cell)}.`;
+      return `空白安全房间，位置${formatCellLabel(cell)}。`;
     }
 
-    return `Safe room ${formatCellLabel(cell)} with ${cell.adjacent} nearby traps.`;
+    return `安全房间，位置${formatCellLabel(cell)}，周围有 ${cell.adjacent} 个陷阱。`;
   }
 
   if (cell.flagged) {
-    return `Flagged hidden room ${formatCellLabel(cell)}.`;
+    return `已标记的隐藏房间，位置${formatCellLabel(cell)}。`;
   }
 
   if (cell.scouted) {
     if (cell.trap) {
-      return `Scouted trap room ${formatCellLabel(cell)}.`;
+      return `已侦察的陷阱房间，位置${formatCellLabel(cell)}。`;
     }
 
-    return `Scouted safe room ${formatCellLabel(cell)} with ${cell.adjacent} nearby traps.`;
+    return `已侦察的安全房间，位置${formatCellLabel(cell)}，周围有 ${cell.adjacent} 个陷阱。`;
   }
 
-  return `Hidden room ${formatCellLabel(cell)}.`;
+  return `隐藏房间，位置${formatCellLabel(cell)}。`;
 }
 
 function render() {

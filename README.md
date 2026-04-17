@@ -1,36 +1,35 @@
-# Dungeon Sweep
+# 地牢扫雷
 
-Dungeon Sweep is a lightweight static browser game that combines Minesweeper-style deduction
-with dungeon exploration. It is built with plain HTML, CSS, and vanilla JavaScript, with no
-build step or dependencies.
+地牢扫雷是一款轻量级静态浏览器游戏，把扫雷式推理和地牢探索结合在一起。
+项目使用原生 HTML、CSS 和 JavaScript 构建，不需要构建步骤或任何依赖。
 
-## Play Locally
+## 本地游玩
 
-1. Open `index.html` in any modern browser.
-2. Click any room to begin the run.
+1. 在任意现代浏览器中打开 `index.html`。
+2. 点击任意房间开始本局。
 
-If you want to test it through a local server instead of opening the file directly:
+如果你想通过本地服务器进行测试，而不是直接打开文件：
 
 ```powershell
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000`.
+然后打开 `http://localhost:8000`。
 
-## Deploy
+## 部署
 
-This project is ready to publish as-is on Netlify or GitHub Pages.
+这个项目可以直接发布到 Netlify 或 GitHub Pages。
 
-- Publish the repository root.
-- Use `index.html` as the site entry point.
-- No build command, package installation, or routing configuration is required.
-- CSS and JavaScript assets use relative paths, so the site also works when served from a GitHub Pages repo subpath.
+- 发布仓库根目录。
+- 使用 `index.html` 作为站点入口。
+- 不需要构建命令、安装依赖或额外路由配置。
+- CSS 和 JavaScript 资源使用相对路径，因此从 GitHub Pages 仓库子路径提供服务时也能正常工作。
 
-## Features
+## 特性
 
-- Pixel-styled dungeon presentation built entirely with CSS
-- Minesweeper-style trap counting and cascading safe-room reveals
-- HP-based mistake system instead of instant failure
-- Treasure rooms that add coins to the run
-- Scout action that inspects one hidden room for 2 coins
-- Flag controls via button mode or right-click
+- 完全用 CSS 构建的像素风地牢视觉表现
+- 扫雷式陷阱计数与安全房间连锁揭开
+- 通过生命值承受失误，而不是一步踩错立刻失败
+- 宝藏房间会为本局增加金币
+- 可花费 2 金币使用侦察查看一个隐藏房间
+- 可通过按钮模式或右键进行标记

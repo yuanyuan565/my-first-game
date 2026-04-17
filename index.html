@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta
     name="description"
-    content="Dungeon Sweep is a static browser game that mixes Minesweeper-style deduction with dungeon exploration, treasure, and scouting."
+    content="地牢扫雷是一款静态浏览器游戏，融合了扫雷式推理、地牢探索、宝藏收集和侦察机制。"
   >
-  <title>Dungeon Sweep</title>
+  <title>地牢扫雷</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <div class="page-shell">
     <header class="panel hero">
       <div class="hero-copy">
-        <p class="eyebrow">Static Browser Dungeon Crawler</p>
-        <h1>Dungeon Sweep</h1>
+        <p class="eyebrow">静态浏览器地牢冒险</p>
+        <h1>地牢扫雷</h1>
         <p class="hero-text">
-          Clear the dungeon one room at a time. Safe rooms show nearby trap counts, treasure rooms
-          award coins, and scouting lets you check danger before you commit.
+          逐个房间清理地牢。安全房间会显示附近陷阱数量，宝藏房间会奖励金币，
+          而侦察能让你在行动前先确认危险。
         </p>
       </div>
 
       <div class="hero-stats">
         <div class="stat-card">
-          <span class="stat-label">HP</span>
+          <span class="stat-label">生命</span>
           <span class="stat-value" id="hpDisplay">3 / 3</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Coins</span>
+          <span class="stat-label">金币</span>
           <span class="stat-value" id="coinsDisplay">4</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Rooms Left</span>
+          <span class="stat-label">剩余房间</span>
           <span class="stat-value" id="roomsLeftDisplay">84</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Flags</span>
+          <span class="stat-label">标记</span>
           <span class="stat-value" id="flagsDisplay">0 / 16</span>
         </div>
       </div>
@@ -45,73 +45,73 @@
     <main class="layout">
       <section class="panel board-panel">
         <div class="toolbar">
-          <button class="action-button" id="newGameBtn" type="button">New Run</button>
+          <button class="action-button" id="newGameBtn" type="button">重新开始</button>
           <button class="action-button" id="flagModeBtn" type="button" aria-pressed="false">
-            Flag Mode
+            标记模式
           </button>
           <button class="action-button" id="scoutBtn" type="button" aria-pressed="false">
-            Scout (2 Coins)
+            侦察（2金币）
           </button>
         </div>
 
         <p class="message neutral" id="message" aria-live="polite">
-          Click any room to begin. Your first room and its neighbors are always safe.
+          点击任意房间开始。你的第一个房间及其周围房间一定安全。
         </p>
 
         <div class="board-wrap">
-          <div class="board" id="board" role="grid" aria-label="Dungeon Sweep board"></div>
+          <div class="board" id="board" role="grid" aria-label="地牢扫雷棋盘"></div>
         </div>
       </section>
 
       <aside class="panel sidebar">
         <section>
-          <h2>How To Play</h2>
+          <h2>玩法说明</h2>
           <ol class="rules-list">
-            <li>Click a room to reveal it. Numbers show how many traps touch that room.</li>
-            <li>Empty safe rooms expand automatically, just like classic Minesweeper.</li>
-            <li>Trap rooms cost 1 HP instead of ending the run immediately.</li>
-            <li>Treasure rooms reward coins when you reveal them.</li>
-            <li>After your first move, Scout can inspect one hidden room for 2 coins.</li>
-            <li>Reveal every safe room before your HP reaches zero to win the run.</li>
+            <li>点击一个房间将其揭开。数字表示有多少陷阱与该房间相邻。</li>
+            <li>空白安全房间会自动扩展，就像经典扫雷一样。</li>
+            <li>踩到陷阱只会损失 1 点生命，不会立刻结束本局。</li>
+            <li>揭开宝藏房间可以获得金币。</li>
+            <li>完成第一次行动后，可以花 2 金币使用侦察查看一个隐藏房间。</li>
+            <li>在生命归零前揭开所有安全房间，即可赢下本局。</li>
           </ol>
         </section>
 
         <section>
-          <h2>Controls</h2>
+          <h2>操作方式</h2>
           <ul class="rules-list">
-            <li>Click hidden rooms to reveal them.</li>
-            <li>Turn on Flag Mode to place or remove flags with a click.</li>
-            <li>On desktop, right-click also toggles a flag.</li>
-            <li>Scout inspects one hidden room, then switches itself off.</li>
+            <li>点击隐藏房间即可将其揭开。</li>
+            <li>开启标记模式后，点击可放置或取消标记。</li>
+            <li>在桌面端，右键也可以切换标记。</li>
+            <li>侦察会查看一个隐藏房间，然后自动关闭。</li>
           </ul>
         </section>
 
         <section>
-          <h2>Legend</h2>
+          <h2>图例</h2>
           <div class="legend-grid">
             <div class="legend-item">
               <span class="legend-swatch hidden-room"></span>
-              <span>Hidden room</span>
+              <span>隐藏房间</span>
             </div>
             <div class="legend-item">
               <span class="legend-swatch safe-room">2</span>
-              <span>Safe room</span>
+              <span>安全房间</span>
             </div>
             <div class="legend-item">
               <span class="legend-swatch scout-room">1</span>
-              <span>Scouted room</span>
+              <span>已侦察房间</span>
             </div>
             <div class="legend-item">
               <span class="legend-swatch trap-room">!</span>
-              <span>Trap room</span>
+              <span>陷阱房间</span>
             </div>
             <div class="legend-item">
-              <span class="legend-swatch flag-room">F</span>
-              <span>Flagged room</span>
+              <span class="legend-swatch flag-room">旗</span>
+              <span>已标记房间</span>
             </div>
             <div class="legend-item">
-              <span class="legend-swatch coin-room">+$</span>
-              <span>Treasure found</span>
+              <span class="legend-swatch coin-room">+币</span>
+              <span>发现宝藏</span>
             </div>
           </div>
         </section>
