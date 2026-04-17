@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="Dungeon Sweep is a static browser game that mixes Minesweeper-style deduction with dungeon exploration, treasure, and scouting."
+  >
+  <title>Dungeon Sweep</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="panel hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Static Browser Dungeon Crawler</p>
+        <h1>Dungeon Sweep</h1>
+        <p class="hero-text">
+          Clear the dungeon one room at a time. Safe rooms show nearby trap counts, treasure rooms
+          award coins, and scouting lets you check danger before you commit.
+        </p>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-label">HP</span>
+          <span class="stat-value" id="hpDisplay">3 / 3</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Coins</span>
+          <span class="stat-value" id="coinsDisplay">4</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Rooms Left</span>
+          <span class="stat-value" id="roomsLeftDisplay">84</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Flags</span>
+          <span class="stat-value" id="flagsDisplay">0 / 16</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel board-panel">
+        <div class="toolbar">
+          <button class="action-button" id="newGameBtn" type="button">New Run</button>
+          <button class="action-button" id="flagModeBtn" type="button" aria-pressed="false">
+            Flag Mode
+          </button>
+          <button class="action-button" id="scoutBtn" type="button" aria-pressed="false">
+            Scout (2 Coins)
+          </button>
+        </div>
+
+        <p class="message neutral" id="message" aria-live="polite">
+          Click any room to begin. Your first room and its neighbors are always safe.
+        </p>
+
+        <div class="board-wrap">
+          <div class="board" id="board" role="grid" aria-label="Dungeon Sweep board"></div>
+        </div>
+      </section>
+
+      <aside class="panel sidebar">
+        <section>
+          <h2>How To Play</h2>
+          <ol class="rules-list">
+            <li>Click a room to reveal it. Numbers show how many traps touch that room.</li>
+            <li>Empty safe rooms expand automatically, just like classic Minesweeper.</li>
+            <li>Trap rooms cost 1 HP instead of ending the run immediately.</li>
+            <li>Treasure rooms reward coins when you reveal them.</li>
+            <li>After your first move, Scout can inspect one hidden room for 2 coins.</li>
+            <li>Reveal every safe room before your HP reaches zero to win the run.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Controls</h2>
+          <ul class="rules-list">
+            <li>Click hidden rooms to reveal them.</li>
+            <li>Turn on Flag Mode to place or remove flags with a click.</li>
+            <li>On desktop, right-click also toggles a flag.</li>
+            <li>Scout inspects one hidden room, then switches itself off.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Legend</h2>
+          <div class="legend-grid">
+            <div class="legend-item">
+              <span class="legend-swatch hidden-room"></span>
+              <span>Hidden room</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch safe-room">2</span>
+              <span>Safe room</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch scout-room">1</span>
+              <span>Scouted room</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch trap-room">!</span>
+              <span>Trap room</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch flag-room">F</span>
+              <span>Flagged room</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch coin-room">+$</span>
+              <span>Treasure found</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
